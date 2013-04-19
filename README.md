@@ -14,8 +14,8 @@ Riding and Making Brooms:
 1. First you have to craft an acceptable broom item as specified in config.yml (default is a shovel)
 2. Enchant the item with Infinity 1 using an anvil.
 3. Equip the broom in your hot bar.
-4. Right click and sneak to go in the direction you are looking.
-5. Just right click to glide forward slower.
+4. Right click on broom to toggle flight.
+5. Sneak to zoom at full speed.
 
 Config:
 
@@ -23,33 +23,39 @@ Default Config:
 
     Brooms:
       number-of-brooms: 5
+  
       broom1:
-         name: Cleansweep One
-         speed: 0.7
+        name: Cleansweep One
+        speed: 0.5
+        durability: 100
         # wood shovel
-         item: 269
+        item: 269
       
       broom2:
         name: Comet 140
-        speed: 0.9
+        speed: 0.8
+        durability: 100
         # stone shovel
         item: 273
       
       broom3:
         name: Nimbus 2000
-        speed: 1.3
+        speed: 1.0
+        durability: 100
         # iron shovel
         item: 256
       
       broom4:
         name: Nimbus 2001
-        speed: 1.4
+        speed: 1.1
+        durability: 100
         # gold shovel
         item: 284
       
       broom5:
         name: Firebolt
-        speed: 2.0
+        speed: 1.5
+        durability: 100
         # diamond shovel
         item: 277
 
