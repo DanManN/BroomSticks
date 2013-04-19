@@ -14,14 +14,14 @@ import org.bukkit.inventory.ItemStack;
 public class ConfigLoader {
 
     private BroomSticks plugin;
-    private Brooms[] brooms;
+    private Broom[] brooms;
     
 
     public ConfigLoader(BroomSticks plugin) {
         this.plugin = plugin;
     }
 
-    public Brooms[] getBrooms() {
+    public Broom[] getBrooms() {
         return brooms;
     }
 
@@ -29,21 +29,42 @@ public class ConfigLoader {
         plugin.saveDefaultConfig();
         String key = "Brooms.";
         int nob = plugin.getConfig().getInt(key + "number-of-brooms");
-        brooms = new Brooms[nob--];
+        brooms = new Broom[nob--];
         for (int i = 0; i <= nob; i++) {
-            key = "Brooms.broom" + (i + 1) + ".";
-            try {
-                String name = plugin.getConfig().getString(key + "name");
-                //System.out.println(name);
-                double speed = plugin.getConfig().getDouble(key + "speed");
-                //System.out.println(speed);
-                int itemId = plugin.getConfig().getInt(key + "item");
-                ItemStack item = new ItemStack(itemId);
-                //System.out.println(item);
-                brooms[i] = new Brooms(name, speed, item);
-            } catch (Exception e) {
-                plugin.getLogger().log(Level.SEVERE, "Invalid Config: Could not load brooms.", e);
+            key = "Brooms.broom" + (i + 1);
+            if (!plugin.getConfig().contains(key)) {
+                plugin.getLogger().log(Level.INFO, "BroomSticks: Loaded all config values.");
+                break;
             }
+                //load config values
+                String name = plugin.getConfig().getString(key + ".name");
+                if (name == null) {
+                    name = plugin.getConfig().getDefaults().getString(key + ".name");
+                    plugin.getLogger().log(Level.WARNING, "Invalid Config Value: {0}name! Replacing with default value.", key);
+                }
+                
+                double speed = plugin.getConfig().getDouble(key + ".speed");
+                if (speed == 0) {
+                    speed = plugin.getConfig().getDefaults().getDouble(key + ".speed");
+                    plugin.getLogger().log(Level.WARNING, "Invalid Config Value: {0}speed! Replacing with default value.", key);
+                }
+                
+                int itemId = plugin.getConfig().getInt(key + ".item");
+                if (itemId == 0) {
+                    itemId = plugin.getConfig().getDefaults().getInt(key + ".name");
+                    plugin.getLogger().log(Level.WARNING, "Invalid Config Value: {0}item! Replacing with default value.", key);
+                }
+                ItemStack item = new ItemStack(itemId);
+                
+                int durability = plugin.getConfig().getInt(key + ".durability");
+                if (durability == 0) {
+                    durability = plugin.getConfig().getDefaults().getInt(key + ".durability");
+                    plugin.getLogger().log(Level.WARNING, "Invalid Config Value: {0}durability! Replacing with default value.", key);
+                }
+                
+                //create broom
+                brooms[i] = new Broom(name, speed, item, durability);
+                
         }
     }
 }

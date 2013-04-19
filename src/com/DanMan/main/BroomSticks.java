@@ -24,11 +24,12 @@ public class BroomSticks extends JavaPlugin{
         config = new ConfigLoader(this);
         config.loadConfig();
         registerListeners();
-        getLogger().info("Wizardry: Enabled");
+        getLogger().info("BroomSticks: Enabled");
     }
 
     @Override
     public void onDisable() {
+        getLogger().info("BroomSticks: Disabled");
     }
 
     public ConfigLoader getConfigLoader() {

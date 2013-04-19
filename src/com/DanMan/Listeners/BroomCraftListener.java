@@ -4,17 +4,16 @@
  */
 package com.DanMan.Listeners;
 
-import com.DanMan.main.Brooms;
-import com.DanMan.main.ConfigLoader;
+import com.DanMan.main.Broom;
 import com.DanMan.main.BroomSticks;
-import java.util.ArrayList;
+import com.DanMan.main.ConfigLoader;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.AnvilInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -26,7 +25,7 @@ public class BroomCraftListener implements Listener {
 
     private BroomSticks plugin;
     private ConfigLoader info;
-    private Brooms broomStick[];
+    private Broom broomStick[];
 
     public BroomCraftListener(BroomSticks plugin) {
         this.plugin = plugin;
@@ -41,13 +40,13 @@ public class BroomCraftListener implements Listener {
             if (item != null) {
                 Material broom = item.getType();
                 if (item.containsEnchantment(Enchantment.ARROW_INFINITE)) {
-                    for (Brooms bs : broomStick) {
+                    for (Broom bs : broomStick) {
                         if (bs.getItem().getType() == broom) {
                             ItemMeta meta = item.getItemMeta();
-                            ArrayList<String> lore = new ArrayList();
-                            lore.add(bs.getName());
-                            meta.setLore(lore);
-                            item.setItemMeta(meta);
+                            if (!meta.hasDisplayName()) {
+                                meta.setDisplayName(ChatColor.BLUE + bs.getName());
+                                item.setItemMeta(meta);
+                            }
                             break;
                         }
                     }
