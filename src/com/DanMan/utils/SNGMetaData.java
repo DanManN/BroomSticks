@@ -16,7 +16,7 @@ import org.bukkit.plugin.Plugin;
  *
  * @author DAY
  */
-public class SNLMetaData {
+public class SNGMetaData {
 
     static final String keyInt = "BroomsInt";
     static final String keyItem = "BroomsItem";

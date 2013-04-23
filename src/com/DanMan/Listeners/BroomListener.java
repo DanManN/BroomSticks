@@ -8,9 +8,11 @@ import com.DanMan.main.BroomSticks;
 import com.DanMan.main.Broom;
 import com.DanMan.main.ConfigLoader;
 import com.DanMan.main.FlyTask;
-import com.DanMan.utils.SNLMetaData;
+import com.DanMan.utils.SNGMetaData;
 import java.util.logging.Level;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.ContainerBlock;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -23,6 +25,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -47,9 +50,19 @@ public class BroomListener implements Listener {
         if (item != null
                 && item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)
                 && (evt.getAction() == Action.RIGHT_CLICK_AIR || evt.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+            if (evt.getClickedBlock() != null) {
+                Block b = evt.getClickedBlock();
+                if (b.getState() instanceof InventoryHolder
+                        || b.getType() == Material.ENDER_CHEST
+                        || b.getType() == Material.ANVIL
+                        || b.getType() == Material.WORKBENCH
+                        || b.getType() == Material.ENCHANTMENT_TABLE) {
+                    return;
+                }
+            }
 
             Player player = evt.getPlayer();
-            int taskId = SNLMetaData.getIntMetadata(player, plugin);
+            int taskId = SNGMetaData.getIntMetadata(player, plugin);
 
             if (taskId == -1) {
                 Material broomItem = item.getType();
@@ -68,8 +81,8 @@ public class BroomListener implements Listener {
                 }
                 Squid broom = (Squid) Broom.mount(player, durability);
                 taskId = FlyTask.flying(plugin, player, broom, speed);
-                SNLMetaData.setIntMetadata(player, taskId, plugin);
-                SNLMetaData.setBroomItemMetadata(player, item, plugin);
+                SNGMetaData.setIntMetadata(player, taskId, plugin);
+                SNGMetaData.setBroomItemMetadata(player, item, plugin);
             } else {
                 stopFlying(player, taskId);
             }
@@ -82,7 +95,7 @@ public class BroomListener implements Listener {
 //        ItemStack item = player.getInventory().getItem(evt.getPreviousSlot());
 //        if (item != null
 //                && item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) {
-//            int taskId = SNLMetaData.getIntMetadata(player, plugin);
+//            int taskId = SNGMetaData.getIntMetadata(player, plugin);
 //            if (taskId != -1) {
 //                stopFlying(player, taskId);
 //            }
@@ -91,7 +104,7 @@ public class BroomListener implements Listener {
     public void stopFlying(Player player, int taskId) {
         Squid broom = (Squid) player.getVehicle();
         FlyTask.stopFlying(plugin, taskId);
-        SNLMetaData.delMetaData(player, plugin);
+        SNGMetaData.delMetaData(player, plugin);
         if (broom != null) {
             Broom.dismount(broom);
         } else {
@@ -105,11 +118,11 @@ public class BroomListener implements Listener {
         if (e instanceof Squid) {
             if (e.getPassenger() != null && e.getPassenger() instanceof Player) {
                 final Player player = (Player) e.getPassenger();
-                int taskId = SNLMetaData.getIntMetadata(player, plugin);
-                ItemStack broom = SNLMetaData.getBroomItemMetadata(player, plugin);
+                int taskId = SNGMetaData.getIntMetadata(player, plugin);
+                ItemStack broom = SNGMetaData.getBroomItemMetadata(player, plugin);
                 FlyTask.stopFlying(plugin, taskId);
                 player.getInventory().clear(player.getInventory().first(broom));
-                SNLMetaData.delMetaData(player, plugin);
+                SNGMetaData.delMetaData(player, plugin);
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 
                     @Override
@@ -149,8 +162,8 @@ public class BroomListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent evt) {
         Player player = evt.getEntity();
-        int taskId = SNLMetaData.getIntMetadata(player, plugin);
+        int taskId = SNGMetaData.getIntMetadata(player, plugin);
         FlyTask.stopFlying(plugin, taskId);
-        SNLMetaData.delMetaData(player, plugin);
+        SNGMetaData.delMetaData(player, plugin);
     }
 }
