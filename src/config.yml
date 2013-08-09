@@ -1,30 +1,32 @@
 Brooms:
   
+  quidditch-pitch-radius: 75
+ 
   number-of-brooms: 5
-  
+  #dont use spaces when naming the brooms
   broom1:
-    name: Cleansweep One
+    name: CleansweepOne
     speed: 0.5
     durability: 100
     # wood shovel
     item: 269
       
   broom2:
-    name: Comet 140
+    name: Comet140
     speed: 0.8
     durability: 100
     # stone shovel
     item: 273
       
   broom3:
-    name: Nimbus 2000
+    name: Nimbus2000
     speed: 1.0
     durability: 100
     # iron shovel
     item: 256
       
   broom4:
-    name: Nimbus 2001
+    name: Nimbus2001
     speed: 1.1
     durability: 100
     # gold shovel

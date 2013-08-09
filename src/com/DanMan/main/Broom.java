@@ -4,10 +4,11 @@
  */
 package com.DanMan.main;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Squid;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -48,35 +49,36 @@ public class Broom {
     }
     private static Vector dir;
 
-    public static Entity mount(Player player, int maxH) {
-        Squid broom = (Squid) player.getWorld().spawnEntity(player.getLocation(), EntityType.SQUID);
+    public static Horse mount(Player player, int maxH) {
+        Horse broom = (Horse) player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE);
         broom.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 2147483647, 0));
         broom.setMaxHealth(maxH);
-        broom.setMaximumAir(1000);
+        broom.setHealth(maxH);
+        broom.setOwner(player);
         broom.setPassenger(player);
+        broom.getInventory().addItem(new ItemStack(Material.SADDLE));
         return broom;
     }
 
-    public static void dismount(Squid broom) {
-        broom.eject();
+    public static void dismount(Horse broom) {
+//        broom.eject();
         broom.remove();
     }
 
-    public static void fly(Player player, Squid broom, double speed) {
+    public static void fly(Player player, Horse broom, double speed) {
         dir = player.getLocation().getDirection();
         dir.multiply(speed);
-        dir.setY(dir.getY() + 0.2 * speed);
-        broom.setVelocity(dir);
-        broom.setFallDistance(0.0F);
-        broom.setRemainingAir(1000);
-    }
-
-    public static void glide(Player player, Squid broom, double speed) {
-        dir = player.getLocation().getDirection();
-        dir.multiply(0.2 * speed);
         dir.setY(dir.getY() + 0.1 * speed);
         broom.setVelocity(dir);
         broom.setFallDistance(0.0F);
-        broom.setRemainingAir(1000);
     }
+
+//    public static void glide(Player player, Horse broom, double speed) {
+//        dir = player.getLocation().getDirection();
+//        dir.multiply(0.2 * speed);
+//        dir.setY(dir.getY() + 0.1 * speed);
+//        broom.setVelocity(dir);
+//        broom.setFallDistance(0.0F);
+//        broom.setRemainingAir(1000);
+//    }
 }

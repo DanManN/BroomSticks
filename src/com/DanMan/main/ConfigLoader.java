@@ -15,6 +15,7 @@ public class ConfigLoader {
 
     private BroomSticks plugin;
     private Broom[] brooms;
+    private int arenaRadius;
     
 
     public ConfigLoader(BroomSticks plugin) {
@@ -24,16 +25,21 @@ public class ConfigLoader {
     public Broom[] getBrooms() {
         return brooms;
     }
+    
+    public int getArenaRadius() {
+        return arenaRadius;
+    }
 
     public void loadConfig() {
         plugin.saveDefaultConfig();
         String key = "Brooms.";
+        arenaRadius = plugin.getConfig().getInt(key + "quidditch-pitch-radius");
         int nob = plugin.getConfig().getInt(key + "number-of-brooms");
         brooms = new Broom[nob--];
         for (int i = 0; i <= nob; i++) {
             key = "Brooms.broom" + (i + 1);
             if (!plugin.getConfig().contains(key)) {
-                plugin.getLogger().log(Level.INFO, "BroomSticks: Loaded all config values.");
+                plugin.getLogger().info("BroomSticks: Loaded all config values.");
                 break;
             }
                 //load config values
@@ -64,7 +70,6 @@ public class ConfigLoader {
                 
                 //create broom
                 brooms[i] = new Broom(name, speed, item, durability);
-                
         }
     }
 }

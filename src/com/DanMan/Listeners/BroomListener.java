@@ -4,27 +4,28 @@
  */
 package com.DanMan.Listeners;
 
-import com.DanMan.main.BroomSticks;
 import com.DanMan.main.Broom;
+import com.DanMan.main.BroomSticks;
 import com.DanMan.main.ConfigLoader;
 import com.DanMan.main.FlyTask;
 import com.DanMan.utils.SNGMetaData;
 import java.util.logging.Level;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.ContainerBlock;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Squid;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.HorseJumpEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,6 +51,7 @@ public class BroomListener implements Listener {
         if (item != null
                 && item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)
                 && (evt.getAction() == Action.RIGHT_CLICK_AIR || evt.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+            //prevent flying when opening block inventory
             if (evt.getClickedBlock() != null) {
                 Block b = evt.getClickedBlock();
                 if (b.getState() instanceof InventoryHolder
@@ -60,62 +62,85 @@ public class BroomListener implements Listener {
                     return;
                 }
             }
-
             Player player = evt.getPlayer();
             int taskId = SNGMetaData.getIntMetadata(player, plugin);
-
+            //start or stop flying
             if (taskId == -1) {
                 Material broomItem = item.getType();
-                double speed = 0;
+                double sMult = 0;
                 int durability = 0;
                 //get config values
                 for (Broom bs : broomStick) {
                     if (bs.getItem().getType() == broomItem) {
-                        speed = bs.getSpeed();
+                        sMult = bs.getSpeed();
                         durability = bs.getDurability();
                         break;
                     }
                 }
-                if (speed == 0 || durability == 0) {
+                if (sMult == 0 || durability == 0) {
                     return;
                 }
-                Squid broom = (Squid) Broom.mount(player, durability);
+                //start flying
+                Horse broom = Broom.mount(player, durability);
+                double speed = 0.2 * sMult;
                 taskId = FlyTask.flying(plugin, player, broom, speed);
                 SNGMetaData.setIntMetadata(player, taskId, plugin);
                 SNGMetaData.setBroomItemMetadata(player, item, plugin);
-            } else {
-                stopFlying(player, taskId);
             }
         }
     }
 
-//    @EventHandler
-//    public void onChangeBroom(PlayerItemHeldEvent evt) {
-//        Player player = evt.getPlayer();
-//        ItemStack item = player.getInventory().getItem(evt.getPreviousSlot());
-//        if (item != null
-//                && item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) {
-//            int taskId = SNGMetaData.getIntMetadata(player, plugin);
-//            if (taskId != -1) {
-//                stopFlying(player, taskId);
-//            }
-//        }
-//    }
-    public void stopFlying(Player player, int taskId) {
-        Squid broom = (Squid) player.getVehicle();
-        FlyTask.stopFlying(plugin, taskId);
-        SNGMetaData.delMetaData(player, plugin);
-        if (broom != null) {
-            Broom.dismount(broom);
-        } else {
-            plugin.getLogger().log(Level.FINE, "BroomSticks Error: Null broom. Could not dismount broom because broom doesn't exist.");
+    @EventHandler
+    public void onChangeSpeed(HorseJumpEvent evt) {
+        Horse broom = evt.getEntity();
+        Player player = (Player) broom.getPassenger();
+        int taskId = SNGMetaData.getIntMetadata(player, plugin);
+        ItemStack item = SNGMetaData.getBroomItemMetadata(player, plugin);
+        if (taskId != -1) {
+            FlyTask.stopFlying(plugin, taskId);
+        }
+        if (item != null) {
+            Material broomItem = item.getType();
+            double sMult = 0;
+            int durability = 0;
+            //get config values
+            for (Broom bs : broomStick) {
+                if (bs.getItem().getType() == broomItem) {
+                    sMult = bs.getSpeed();
+                    durability = bs.getDurability();
+                    break;
+                }
+            }
+            if (sMult == 0 || durability == 0) {
+                return;
+            }
+            //restart flying
+            double power = evt.getPower() < 0.5 ? evt.getPower() - 0.2 : evt.getPower();
+            double speed = evt.getPower() * sMult;
+            taskId = FlyTask.flying(plugin, player, broom, speed);
+            SNGMetaData.setIntMetadata(player, taskId, plugin);
         }
     }
 
     @EventHandler
-    public void onSquidDie(final EntityDeathEvent evt) {
+    public void onStopFlying(VehicleExitEvent evt) {
+        if (evt.getVehicle() instanceof Horse && evt.getExited() instanceof Player) {
+            Horse broom = (Horse) evt.getVehicle();
+            Player player = (Player) evt.getExited();
+            int taskId = SNGMetaData.getIntMetadata(player, plugin);
+            FlyTask.stopFlying(plugin, taskId);
+            SNGMetaData.delMetaData(player, plugin);
+            if (broom != null) {
+                Broom.dismount(broom);
+            } else {
+                plugin.getLogger().log(Level.FINE, "BroomSticks Error: Null broom. Could not dismount broom because broom doesn't exist.");
+            }
+        }
+    }
+
+    public void onHorseDie(final EntityDeathEvent evt) {
         Entity e = evt.getEntity();
-        if (e instanceof Squid) {
+        if (e instanceof Horse) {
             if (e.getPassenger() != null && e.getPassenger() instanceof Player) {
                 final Player player = (Player) e.getPassenger();
                 int taskId = SNGMetaData.getIntMetadata(player, plugin);
@@ -134,14 +159,14 @@ public class BroomListener implements Listener {
                 }, 20);
             }
         }
-
     }
 
+    //prevent Horse from getting hurt
     @EventHandler
-    public void onSquidDamaged(EntityDamageByEntityEvent evt) {
+    public void onHorseDamaged(EntityDamageByEntityEvent evt) {
         Entity e = evt.getEntity();
-        if (e instanceof Squid) {
-            Squid broom = (Squid) e;
+        if (e instanceof Horse) {
+            //Horse broom = (Horse) e;
             if (e.getPassenger() != null && e.getPassenger() instanceof Player) {
                 Player rider = (Player) e.getPassenger();
                 ItemStack item = rider.getItemInHand();
@@ -150,9 +175,11 @@ public class BroomListener implements Listener {
                         item.setDurability((short) 0);
                         rider.updateInventory();
                     }
-                    evt.setCancelled(true);
-                } else if (evt.getDamage() < broom.getMaxHealth()
-                        && (evt.getCause() != DamageCause.FIRE || evt.getCause() != DamageCause.FIRE_TICK || evt.getCause() != DamageCause.LAVA)) {
+                }
+                if (evt.getCause() == DamageCause.ENTITY_ATTACK
+                        || evt.getCause() == DamageCause.MAGIC
+                        || evt.getCause() == DamageCause.POISON
+                        || evt.getCause() == DamageCause.WITHER) {
                     evt.setCancelled(true);
                 }
             }

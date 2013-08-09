@@ -4,8 +4,8 @@
  */
 package com.DanMan.main;
 
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Squid;
 
 /**
  *
@@ -13,17 +13,19 @@ import org.bukkit.entity.Squid;
  */
 public class FlyTask {
     
-    public static int flying(BroomSticks plugin, final Player player, final Squid broom, final double speed) {
+    public static int flying(BroomSticks plugin, final Player player, final Horse broom, final double speed) {
         
         int id = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 
             @Override
             public void run() {
-                    if (player.isSneaking()) {
-                        Broom.fly(player, broom, speed);
-                    } else {
-                        Broom.glide(player, broom, speed);
-                    }
+//                    if (player.isSneaking()) {
+//                        Broom.fly(player, broom, speed);
+//                    } else {
+//                        Broom.glide(player, broom, speed);
+//                    }
+                
+                Broom.fly(player, broom, speed);
             }
         }, 1, 1);
         return id;

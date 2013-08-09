@@ -4,8 +4,8 @@
  */
 package com.DanMan.utils;
 
-import com.DanMan.main.Broom;
 import java.util.List;
+import org.bukkit.entity.Bat;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -20,6 +20,7 @@ public class SNGMetaData {
 
     static final String keyInt = "BroomsInt";
     static final String keyItem = "BroomsItem";
+    static final String keyBat = "BroomsBat";
     
     public static void setIntMetadata(Player player, int value, Plugin plug) {
         player.setMetadata(keyInt, new FixedMetadataValue(plug, value));
@@ -29,7 +30,7 @@ public class SNGMetaData {
         List<MetadataValue> values = player.getMetadata(keyInt);
         for (MetadataValue value : values) {
             if (value.getOwningPlugin().getDescription().getName().equals(plug.getDescription().getName())) {
-                return (int) value.value();
+                return value.asInt();
             }
         }
         return -1;
@@ -47,6 +48,19 @@ public class SNGMetaData {
             }
         }
         return null;
+    }
+    public static void setBatMetadata(Bat b, int value, Plugin plug) {
+        b.setMetadata(keyBat, new FixedMetadataValue(plug, value));
+    }
+    
+    public static int getBatMetadata(Bat b, Plugin plug) {
+        List<MetadataValue> values = b.getMetadata(keyBat);
+        for (MetadataValue value : values) {
+            if (value.getOwningPlugin().getDescription().getName().equals(plug.getDescription().getName())) {
+                return value.asInt();
+            }
+        }
+        return -1;
     }
     
     public static void showMetadata(Player player, Plugin plug, String key) {
