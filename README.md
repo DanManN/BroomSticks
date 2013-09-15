@@ -11,11 +11,14 @@ Give them any name you want. Customize their speeds and even pick what items can
 
 Riding and Making Brooms:
 
-1. First you have to craft an acceptable broom item as specified in config.yml (default is a shovel)
-2. Enchant the item with Infinity 1 using an anvil.
-3. Equip the broom in your hot bar.
-4. Right click on broom to toggle flight.
-5. Sneak to zoom at full speed.
+1 First you have to craft an acceptable broom item as specified in config.yml (default is a shovel)
+2 Enchant the item with Infinity 1 using an anvil.
+3 Equip the broom in your hot bar.
+4 Right click to mount the broom.
+5 While mounted you will glide at minimum speed.
+6 Hold space bar to increase the blue bar on the screen and then let go. The more you fill the blue bar the faster you will go.
+7 Stay out of trouble, brooms will now burn up after touching lava or being lit on fire.
+8 Sneak to dismount the broom. Make sure you are on the ground first or you will fall.
 
 Config:
 
