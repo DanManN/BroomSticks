@@ -4,6 +4,8 @@
  */
 package com.DanMan.main;
 
+import com.DanMan.utils.SNGMetaData;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -60,9 +62,24 @@ public class Broom {
         return broom;
     }
 
-    public static void dismount(Horse broom) {
-//        broom.eject();
-        broom.remove();
+    public static void dismount(Horse broom, Player player, BroomSticks plugin) {
+        int taskId = SNGMetaData.getIntMetadata(player, plugin);
+        if (taskId != -1) {
+            FlyTask.stopFlying(plugin, taskId);
+            SNGMetaData.delMetaData(player, plugin);
+            broom.remove();
+        }
+    }
+
+    public static void dismountAll(BroomSticks plugin) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            int taskId = SNGMetaData.getIntMetadata(player, plugin);
+            if (taskId != -1) {
+                FlyTask.stopFlying(plugin, taskId);
+                SNGMetaData.delMetaData(player, plugin);
+                player.getVehicle().remove();
+            }
+        }
     }
 
     public static void fly(Player player, Horse broom, double speed) {
@@ -72,7 +89,6 @@ public class Broom {
         broom.setVelocity(dir);
         broom.setFallDistance(0.0F);
     }
-
 //    public static void glide(Player player, Horse broom, double speed) {
 //        dir = player.getLocation().getDirection();
 //        dir.multiply(0.2 * speed);

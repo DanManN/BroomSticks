@@ -29,15 +29,16 @@ public class BroomSticks extends JavaPlugin{
         config = new ConfigLoader(this);
         config.loadConfig();
         myEx = new BroomCommands(this);
-        myEx2 = new QuidditchCommand(this);
+        //myEx2 = new QuidditchCommand(this);
         getCommand("broom").setExecutor(myEx);
-        getCommand("q").setExecutor(myEx2);
+        //getCommand("q").setExecutor(myEx2);
         registerListeners();
         getLogger().info("BroomSticks: Enabled");
     }
 
     @Override
     public void onDisable() {
+        Broom.dismountAll(this);
         getLogger().info("BroomSticks: Disabled");
     }
 
@@ -49,6 +50,6 @@ public class BroomSticks extends JavaPlugin{
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new BroomListener(this), this);
         pm.registerEvents(new BroomCraftListener(this), this);
-        pm.registerEvents(new QuidditchListener(this), this);
+        //pm.registerEvents(new QuidditchListener(this), this);
     }
 }

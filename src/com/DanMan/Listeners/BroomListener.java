@@ -16,15 +16,15 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.HorseJumpEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -116,7 +116,7 @@ public class BroomListener implements Listener {
             }
             //restart flying
             double power = evt.getPower() < 0.5 ? evt.getPower() - 0.2 : evt.getPower();
-            double speed = evt.getPower() * sMult;
+            double speed = power * sMult;
             taskId = FlyTask.flying(plugin, player, broom, speed);
             SNGMetaData.setIntMetadata(player, taskId, plugin);
         }
@@ -127,14 +127,7 @@ public class BroomListener implements Listener {
         if (evt.getVehicle() instanceof Horse && evt.getExited() instanceof Player) {
             Horse broom = (Horse) evt.getVehicle();
             Player player = (Player) evt.getExited();
-            int taskId = SNGMetaData.getIntMetadata(player, plugin);
-            FlyTask.stopFlying(plugin, taskId);
-            SNGMetaData.delMetaData(player, plugin);
-            if (broom != null) {
-                Broom.dismount(broom);
-            } else {
-                plugin.getLogger().log(Level.FINE, "BroomSticks Error: Null broom. Could not dismount broom because broom doesn't exist.");
-            }
+            Broom.dismount(broom, player, plugin);
         }
     }
 
@@ -144,19 +137,21 @@ public class BroomListener implements Listener {
             if (e.getPassenger() != null && e.getPassenger() instanceof Player) {
                 final Player player = (Player) e.getPassenger();
                 int taskId = SNGMetaData.getIntMetadata(player, plugin);
-                ItemStack broom = SNGMetaData.getBroomItemMetadata(player, plugin);
-                FlyTask.stopFlying(plugin, taskId);
-                player.getInventory().clear(player.getInventory().first(broom));
-                SNGMetaData.delMetaData(player, plugin);
-                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                if (taskId != -1) {
+                    ItemStack broom = SNGMetaData.getBroomItemMetadata(player, plugin);
+                    FlyTask.stopFlying(plugin, taskId);
+                    player.getInventory().clear(player.getInventory().first(broom));
+                    SNGMetaData.delMetaData(player, plugin);
+                    plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 
-                    @Override
-                    public void run() {
-                        for (ItemStack item : evt.getDrops()) {
-                            player.getInventory().remove(item);
+                        @Override
+                        public void run() {
+                            for (ItemStack item : evt.getDrops()) {
+                                player.getInventory().remove(item);
+                            }
                         }
-                    }
-                }, 20);
+                    }, 20);
+                }
             }
         }
     }
@@ -168,14 +163,14 @@ public class BroomListener implements Listener {
         if (e instanceof Horse) {
             //Horse broom = (Horse) e;
             if (e.getPassenger() != null && e.getPassenger() instanceof Player) {
-                Player rider = (Player) e.getPassenger();
-                ItemStack item = rider.getItemInHand();
-                if (evt.getDamager() == rider) {
-                    if (item.getType() != Material.POTION) {
-                        item.setDurability((short) 0);
-                        rider.updateInventory();
-                    }
-                }
+//                Player rider = (Player) e.getPassenger();
+//                ItemStack item = rider.getItemInHand();
+//                if (evt.getDamager() == rider) {
+//                    if (item.getType() != Material.POTION) {
+//                        item.setDurability((short) 0);
+//                        rider.updateInventory();
+//                    }
+//                }
                 if (evt.getCause() == DamageCause.ENTITY_ATTACK
                         || evt.getCause() == DamageCause.MAGIC
                         || evt.getCause() == DamageCause.POISON
@@ -189,8 +184,21 @@ public class BroomListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent evt) {
         Player player = evt.getEntity();
-        int taskId = SNGMetaData.getIntMetadata(player, plugin);
-        FlyTask.stopFlying(plugin, taskId);
-        SNGMetaData.delMetaData(player, plugin);
+        Entity broom = player.getVehicle();
+        removeBroom(player, broom, plugin);
+    }
+
+    @EventHandler
+    public void onPlayerDisconnect(PlayerQuitEvent evt) {
+        Player player = evt.getPlayer();
+        Entity broom = player.getVehicle();
+        removeBroom(player, broom, plugin);
+    }
+
+    public static void removeBroom(Player player, Entity e, BroomSticks plugin) {;
+        if (e instanceof Horse) {
+            Horse broom = (Horse) e;
+            Broom.dismount(broom, player, plugin);
+        }
     }
 }
