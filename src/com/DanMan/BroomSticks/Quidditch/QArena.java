@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.DanMan.Quidditch;
+package com.DanMan.BroomSticks.Quidditch;
 
-import com.DanMan.main.BroomSticks;
+import com.DanMan.BroomSticks.main.BroomSticks;
 import java.io.*;
 import java.util.Scanner;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 /**
  *
@@ -135,23 +135,33 @@ public class QArena {
         return plugin.getConfigLoader().getArenaRadius();
     }
 
-    public static boolean inArena(Entity e, QArena qa) {
-        //arena center location
-        Location center = qa.getCenter();
-        double x1 = center.getX();
-        double z1 = center.getZ();
+    public boolean inArena(Location loc) {
+        //check world before doing math
+        if (center.getWorld() == loc.getWorld()) {
+            double x1 = center.getX();
+            double z1 = center.getZ();
 
-        //entity location
-        Location loc = e.getLocation();
-        double x2 = loc.getX();
-        double z2 = loc.getZ();
+            //location to check
+            double x2 = loc.getX();
+            double z2 = loc.getZ();
 
-        double distance = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((z2 - z1), 2));
+            double distance = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((z2 - z1), 2));
 
-        if (distance <= qa.getRadius()) {
-            return true;
+            if (distance <= getRadius()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
+        }
+    }
+
+    public static void arenaBroadcast(String message, QArena qa) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (qa.inArena(player.getLocation())) {
+                player.sendMessage(message);
+            }
         }
     }
 }

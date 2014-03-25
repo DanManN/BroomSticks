@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.DanMan.Commands;
+package com.DanMan.BroomSticks.Commands;
 
-import com.DanMan.Quidditch.QArena;
-import com.DanMan.main.BroomSticks;
+import com.DanMan.BroomSticks.Quidditch.QArena;
+import com.DanMan.BroomSticks.main.BroomSticks;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -45,7 +45,7 @@ public class QuidditchCommand implements CommandExecutor {
                             sender.sendMessage(ChatColor.RED + "That arena already exists.");
                         } else {
                             qa.setAndSave(Bukkit.getServer().getPlayer(sender.getName()).getLocation());
-                            sender.sendMessage(ChatColor.RED + "You created the quidditch arena named: " + args[1]);
+                            sender.sendMessage(ChatColor.BLUE + "You created the quidditch arena named: " + args[1]);
                         }
                     } else {
                         sender.sendMessage(ChatColor.RED + "Only players can create arena's");
@@ -53,7 +53,7 @@ public class QuidditchCommand implements CommandExecutor {
                     //delete arena command
                 } else if (args[0].equalsIgnoreCase("delete")) {
                     qa.deleteArena();
-                    sender.sendMessage(ChatColor.RED + "You deleted the quidditch arena named: " + args[1]);
+                    sender.sendMessage(ChatColor.BLUE + "You deleted the quidditch arena named: " + args[1]);
                 } else {
                     sender.sendMessage(ChatColor.RED + "No such command: /q " + args[0]);
                     return false;

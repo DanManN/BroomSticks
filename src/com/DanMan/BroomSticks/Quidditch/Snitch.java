@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.DanMan.Quidditch;
+package com.DanMan.BroomSticks.Quidditch;
 
-import com.DanMan.main.BroomSticks;
-import com.DanMan.utils.SNGMetaData;
+import com.DanMan.BroomSticks.main.BroomSticks;
+import com.DanMan.BroomSticks.utils.SNGMetaData;
 import org.bukkit.Location;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.EntityType;
@@ -25,9 +25,7 @@ public class Snitch {
             @Override
             public void run() {
                 Vector bat = snitch.getLocation().getDirection();
-                bat.setX(bat.getX() * 1.5);
-                bat.setY(bat.getY() * 5);
-                bat.setZ(bat.getZ() * 1.5);
+                bat.multiply(1.5);
                 snitch.setVelocity(bat);
             }
         }, 10, 10);
@@ -38,5 +36,6 @@ public class Snitch {
         int id = SNGMetaData.getBatMetadata(snitch, plugin);
         plugin.getServer().getScheduler().cancelTask(id);
         snitch.remove();
+        
     }
 }

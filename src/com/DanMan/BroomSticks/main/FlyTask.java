@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.DanMan.main;
+package com.DanMan.BroomSticks.main;
 
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;

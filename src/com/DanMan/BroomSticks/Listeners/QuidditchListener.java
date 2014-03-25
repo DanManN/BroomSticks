@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.DanMan.Listeners;
+package com.DanMan.BroomSticks.Listeners;
 
-import com.DanMan.Quidditch.Snitch;
-import com.DanMan.main.BroomSticks;
+import com.DanMan.BroomSticks.Quidditch.Snitch;
+import com.DanMan.BroomSticks.main.BroomSticks;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

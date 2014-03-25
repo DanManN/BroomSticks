@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.DanMan.Listeners;
+package com.DanMan.BroomSticks.Listeners;
 
-import com.DanMan.main.Broom;
-import com.DanMan.main.BroomSticks;
-import com.DanMan.main.ConfigLoader;
+import com.DanMan.BroomSticks.main.Broom;
+import com.DanMan.BroomSticks.main.BroomSticks;
+import com.DanMan.BroomSticks.main.ConfigLoader;
+import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -25,7 +26,7 @@ public class BroomCraftListener implements Listener {
 
     private BroomSticks plugin;
     private ConfigLoader info;
-    private Broom broomStick[];
+    private ArrayList<Broom> broomStick;
 
     public BroomCraftListener(BroomSticks plugin) {
         this.plugin = plugin;
@@ -44,7 +45,7 @@ public class BroomCraftListener implements Listener {
                         if (bs.getItem().getType() == broom) {
                             ItemMeta meta = item.getItemMeta();
                             if (!meta.hasDisplayName()) {
-                                meta.setDisplayName(ChatColor.BLUE + bs.getName());
+                                meta.setDisplayName(bs.getName().replace("_", " "));
                                 item.setItemMeta(meta);
                             }
                             break;

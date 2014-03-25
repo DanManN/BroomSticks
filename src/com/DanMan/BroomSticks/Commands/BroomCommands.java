@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.DanMan.Commands;
+package com.DanMan.BroomSticks.Commands;
 
-import com.DanMan.main.Broom;
-import com.DanMan.main.BroomSticks;
-import com.DanMan.main.ConfigLoader;
+import com.DanMan.BroomSticks.main.Broom;
+import com.DanMan.BroomSticks.main.BroomSticks;
+import com.DanMan.BroomSticks.main.ConfigLoader;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
@@ -27,7 +28,7 @@ public class BroomCommands implements CommandExecutor {
 
     BroomSticks plugin;
     private ConfigLoader info;
-    private Broom[] broomStick;
+    private ArrayList<Broom> broomStick;
     boolean bool;
 
     public BroomCommands(BroomSticks plugin) {
@@ -69,11 +70,11 @@ public class BroomCommands implements CommandExecutor {
                 ItemStack broom = null;
                 if (player != null) {
                     for (Broom bs : broomStick) {
-                        if (bs.getName().equalsIgnoreCase(args[0])) {
+                        if (ChatColor.stripColor(bs.getName()).equalsIgnoreCase(args[0])) {
                             broom = bs.getItem();
                             ItemMeta meta = broom.getItemMeta();
                             meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-                            meta.setDisplayName(ChatColor.BLUE + bs.getName());
+                            meta.setDisplayName(bs.getName().replace("_", " "));
                             broom.setItemMeta(meta);
                             break;
                         }

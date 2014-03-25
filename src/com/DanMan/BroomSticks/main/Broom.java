@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.DanMan.main;
+package com.DanMan.BroomSticks.main;
 
-import com.DanMan.utils.SNGMetaData;
+import com.DanMan.BroomSticks.utils.SNGMetaData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -67,6 +67,7 @@ public class Broom {
         if (taskId != -1) {
             FlyTask.stopFlying(plugin, taskId);
             SNGMetaData.delMetaData(player, plugin);
+            player.setVelocity(broom.getVelocity());
             broom.remove();
         }
     }
