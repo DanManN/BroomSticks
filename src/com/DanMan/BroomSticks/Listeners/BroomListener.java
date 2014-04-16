@@ -91,7 +91,7 @@ public class BroomListener implements Listener {
             if (evt.getClickedBlock() != null) {
                 Block b = evt.getClickedBlock();
                 if (b.getState() instanceof InventoryHolder
-                        ||b.getType() == Material.WOODEN_DOOR
+                        || b.getType() == Material.WOODEN_DOOR
                         || b.getType() == Material.TRAP_DOOR
                         || b.getType() == Material.FENCE_GATE
                         || b.getType() == Material.WORKBENCH
@@ -103,8 +103,7 @@ public class BroomListener implements Listener {
                         || b.getType() == Material.DIODE_BLOCK_OFF
                         || b.getType() == Material.REDSTONE_COMPARATOR_OFF
                         || b.getType() == Material.REDSTONE_COMPARATOR_ON
-                        || b.getType() == Material.ENCHANTMENT_TABLE
-                        ) {
+                        || b.getType() == Material.ENCHANTMENT_TABLE) {
                     return;
                 }
             }
@@ -134,9 +133,9 @@ public class BroomListener implements Listener {
                     taskId = FlyTask.flying(plugin, player, broom, speed);
                     SNGMetaData.setIntMetadata(player, taskId, plugin);
                     SNGMetaData.setBroomItemMetadata(player, item, plugin);
+                } else {
+                    player.sendMessage(ChatColor.BLUE + "Dream all you want but only witches fly on brooms.");
                 }
-            } else {
-                player.sendMessage(ChatColor.BLUE + "Dream all you want but only witches fly on brooms.");
             }
             evt.setCancelled(true);
         }

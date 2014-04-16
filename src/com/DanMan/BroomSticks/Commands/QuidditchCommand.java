@@ -6,7 +6,6 @@ package com.DanMan.BroomSticks.Commands;
 
 import com.DanMan.BroomSticks.Quidditch.QArena;
 import com.DanMan.BroomSticks.main.BroomSticks;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,7 +43,7 @@ public class QuidditchCommand implements CommandExecutor {
                         if (qa.arenaExists()) {
                             sender.sendMessage(ChatColor.RED + "That arena already exists.");
                         } else {
-                            qa.setAndSave(Bukkit.getServer().getPlayer(sender.getName()).getLocation());
+                            qa.setAndSave(((Player) sender).getLocation());
                             sender.sendMessage(ChatColor.BLUE + "You created the quidditch arena named: " + args[1]);
                         }
                     } else {

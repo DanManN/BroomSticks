@@ -8,7 +8,6 @@ import com.DanMan.BroomSticks.main.Broom;
 import com.DanMan.BroomSticks.main.BroomSticks;
 import com.DanMan.BroomSticks.main.ConfigLoader;
 import java.util.ArrayList;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
