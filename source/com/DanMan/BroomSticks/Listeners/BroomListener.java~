@@ -1,0 +1,303 @@
+/*     */ package com.DanMan.BroomSticks.Listeners;
+/*     */ 
+/*     */ import com.DanMan.BroomSticks.main.Broom;
+/*     */ import com.DanMan.BroomSticks.main.BroomSticks;
+/*     */ import com.DanMan.BroomSticks.main.ConfigLoader;
+/*     */ import com.DanMan.BroomSticks.main.FlyTask;
+/*     */ import com.DanMan.BroomSticks.utils.SNGMetaData;
+/*     */ import java.util.ArrayList;
+/*     */ import java.util.List;
+/*     */ import java.util.Map;
+/*     */ import org.bukkit.Bukkit;
+/*     */ import org.bukkit.ChatColor;
+/*     */ import org.bukkit.Material;
+/*     */ import org.bukkit.Server;
+/*     */ import org.bukkit.block.Block;
+/*     */ import org.bukkit.configuration.file.FileConfiguration;
+/*     */ import org.bukkit.enchantments.Enchantment;
+/*     */ import org.bukkit.entity.Entity;
+/*     */ import org.bukkit.entity.Horse;
+/*     */ import org.bukkit.entity.HumanEntity;
+/*     */ import org.bukkit.entity.Player;
+/*     */ import org.bukkit.event.EventHandler;
+/*     */ import org.bukkit.event.Listener;
+/*     */ import org.bukkit.event.block.Action;
+/*     */ import org.bukkit.event.entity.EntityDamageByEntityEvent;
+/*     */ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+/*     */ import org.bukkit.event.entity.EntityDamageEvent;
+/*     */ import org.bukkit.event.entity.HorseJumpEvent;
+/*     */ import org.bukkit.event.entity.PlayerDeathEvent;
+/*     */ import org.bukkit.event.inventory.InventoryClickEvent;
+/*     */ import org.bukkit.event.player.PlayerInteractEvent;
+/*     */ import org.bukkit.event.player.PlayerQuitEvent;
+/*     */ import org.bukkit.inventory.HorseInventory;
+/*     */ import org.bukkit.inventory.Inventory;
+/*     */ import org.bukkit.inventory.InventoryHolder;
+/*     */ import org.bukkit.inventory.ItemStack;
+/*     */ import org.bukkit.plugin.Plugin;
+/*     */ import org.bukkit.plugin.PluginManager;
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ public class BroomListener
+/*     */   implements Listener
+/*     */ {
+/*     */   private BroomSticks plugin;
+/*     */   private ConfigLoader info;
+/*     */   private ArrayList<Broom> broomStick;
+/*     */   
+/*     */   public BroomListener(BroomSticks plugin)
+/*     */   {
+/*  54 */     this.plugin = plugin;
+/*  55 */     this.info = plugin.getConfigLoader();
+/*  56 */     this.broomStick = this.info.getBrooms();
+/*     */   }
+/*     */   
+/*     */ 
+/*     */ 
+/*     */   public boolean cbCheck(Block b)
+/*     */   {
+/*  63 */     if (b != null) {
+/*  64 */       Material mb = b.getType();
+/*  65 */       Plugin[] arrayOfPlugin; int j = (arrayOfPlugin = Bukkit.getPluginManager().getPlugins()).length; for (int i = 0; i < j; i++) { Plugin plug = arrayOfPlugin[i];
+/*  66 */         if (plug.getName().equalsIgnoreCase("craftbook")) {
+/*  67 */           Plugin cb = Bukkit.getServer().getPluginManager().getPlugin("CraftBook");
+/*  68 */           if (cb.getConfig().getBoolean("mechanics.chair.enable")) {
+/*  69 */             String[] blocks = null;
+/*  70 */             List<String> sblocks = cb.getConfig().getStringList("mechanics.chair.blocks");
+/*  71 */             if (sblocks != null)
+/*  72 */               blocks = (String[])sblocks.toArray(new String[sblocks.size()]);
+/*     */             String[] arrayOfString1;
+/*  74 */             int m = (arrayOfString1 = blocks).length; for (int k = 0; k < m; k++) { String sb = arrayOfString1[k];
+/*  75 */               if (mb.toString().equalsIgnoreCase(sb)) {
+/*  76 */                 return true;
+/*     */               }
+/*     */             }
+/*     */           }
+/*     */         }
+/*     */       }
+/*     */     }
+/*     */     
+/*  84 */     return false;
+/*     */   }
+/*     */   
+/*     */ 
+/*     */   @EventHandler
+/*     */   public void onUseBroom(PlayerInteractEvent evt)
+/*     */   {
+/*  91 */     if (cbCheck(evt.getClickedBlock())) {
+/*  92 */       return;
+/*     */     }
+/*     */     
+/*  95 */     ItemStack item = evt.getItem();
+/*  96 */     if ((item != null) && 
+/*  97 */       (item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) && (
+/*  98 */       (evt.getAction() == Action.RIGHT_CLICK_AIR) || (evt.getAction() == Action.RIGHT_CLICK_BLOCK)))
+/*     */     {
+/* 100 */       if (evt.getClickedBlock() != null) {
+/* 101 */         Block b = evt.getClickedBlock();
+/* 102 */         if (((b.getState() instanceof InventoryHolder)) || 
+/* 103 */           (b.getType() == Material.WOODEN_DOOR) || 
+/* 104 */           (b.getType() == Material.TRAP_DOOR) || 
+/* 105 */           (b.getType() == Material.FENCE_GATE) || 
+/* 106 */           (b.getType() == Material.WORKBENCH) || 
+/* 107 */           (b.getType() == Material.ANVIL) || 
+/* 108 */           (b.getType() == Material.LEVER) || 
+/* 109 */           (b.getType() == Material.WOOD_BUTTON) || 
+/* 110 */           (b.getType() == Material.STONE_BUTTON) || 
+/* 111 */           (b.getType() == Material.DIODE_BLOCK_ON) || 
+/* 112 */           (b.getType() == Material.DIODE_BLOCK_OFF) || 
+/* 113 */           (b.getType() == Material.REDSTONE_COMPARATOR_OFF) || 
+/* 114 */           (b.getType() == Material.REDSTONE_COMPARATOR_ON) || 
+/* 115 */           (b.getType() == Material.ENCHANTMENT_TABLE)) {
+/* 116 */           return;
+/*     */         }
+/*     */       }
+/* 119 */       Player player = evt.getPlayer();
+/*     */       
+/* 121 */       int taskId = SNGMetaData.getIntMetadata(player, this.plugin);
+/*     */       
+/* 123 */       if (taskId == -1) {
+/* 124 */         Material broomItem = item.getType();
+/* 125 */         double sMult = 0.0D;
+/* 126 */         int durability = 0;
+/*     */         
+/* 128 */         for (Broom bs : this.broomStick) {
+/* 129 */           if (bs.getItem().getType() == broomItem) {
+/* 130 */             sMult = bs.getSpeed();
+/* 131 */             durability = bs.getDurability();
+/* 132 */             break;
+/*     */           }
+/*     */         }
+/* 135 */         if ((sMult == 0.0D) || (durability == 0)) {
+/* 136 */           return;
+/*     */         }
+/* 138 */         if (player.hasPermission("broomsticks.ride"))
+/*     */         {
+/* 140 */           Horse broom = Broom.mount(player, durability);
+/* 141 */           double speed = 0.1D * sMult;
+/* 142 */           taskId = FlyTask.flying(this.plugin, player, broom, speed);
+/* 143 */           SNGMetaData.setIntMetadata(player, taskId, this.plugin);
+/* 144 */           SNGMetaData.setBroomItemMetadata(player, item, this.plugin);
+/*     */         } else {
+/* 146 */           player.sendMessage(ChatColor.BLUE + "Dream all you want but only witches fly on brooms.");
+/*     */         }
+/*     */       }
+/* 149 */       evt.setCancelled(true);
+/*     */     }
+/*     */   }
+/*     */   
+/*     */   @EventHandler
+/*     */   public void onChangeSpeed(HorseJumpEvent evt)
+/*     */   {
+/* 156 */     Horse broom = evt.getEntity();
+/* 157 */     Player player = (Player)broom.getPassenger();
+/* 158 */     int taskId = SNGMetaData.getIntMetadata(player, this.plugin);
+/* 159 */     ItemStack item = SNGMetaData.getBroomItemMetadata(player, this.plugin);
+/* 160 */     if (taskId != -1) {
+/* 161 */       FlyTask.stopFlying(this.plugin, taskId);
+/*     */     }
+/* 163 */     if (item != null) {
+/* 164 */       Material broomItem = item.getType();
+/* 165 */       double sMult = 0.0D;
+/* 166 */       int durability = 0;
+/*     */       
+/* 168 */       for (Broom bs : this.broomStick) {
+/* 169 */         if (bs.getItem().getType() == broomItem) {
+/* 170 */           sMult = bs.getSpeed();
+/* 171 */           durability = bs.getDurability();
+/* 172 */           break;
+/*     */         }
+/*     */       }
+/* 175 */       if ((sMult == 0.0D) || (durability == 0)) {
+/* 176 */         return;
+/*     */       }
+/*     */       
+/*     */ 
+/* 180 */       double power = (evt.getPower() / 0.4D - 1.0D) / 1.5D;
+/*     */       
+/* 182 */       double speed = power * sMult;
+/*     */       
+/* 184 */       taskId = FlyTask.flying(this.plugin, player, broom, speed);
+/* 185 */       SNGMetaData.setIntMetadata(player, taskId, this.plugin);
+/*     */     }
+/*     */   }
+/*     */   
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   @EventHandler
+/*     */   public void onSaddleClick(InventoryClickEvent evt)
+/*     */   {
+/* 205 */     HumanEntity he = evt.getWhoClicked();
+/* 206 */     Inventory inv = evt.getInventory();
+/* 207 */     if (((inv instanceof HorseInventory)) && ((he instanceof Player))) {
+/* 208 */       Player p = (Player)he;
+/* 209 */       if ((SNGMetaData.getIntMetadata(p, this.plugin) != -1) && 
+/* 210 */         (evt.getSlot() == 0) && 
+/* 211 */         (evt.getCurrentItem().getType() == Material.SADDLE)) {
+/* 212 */         evt.setCancelled(true);
+/*     */       }
+/*     */     }
+/*     */   }
+/*     */   
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   @EventHandler
+/*     */   public void onHorseDamaged(EntityDamageByEntityEvent evt)
+/*     */   {
+/* 249 */     Entity e = evt.getEntity();
+/* 250 */     if ((e instanceof Horse))
+/*     */     {
+/* 252 */       if ((e.getPassenger() != null) && ((e.getPassenger() instanceof Player)))
+/*     */       {
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/* 261 */         if ((evt.getCause() != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || 
+/* 262 */           (evt.getCause() != EntityDamageEvent.DamageCause.FIRE) || 
+/* 263 */           (evt.getCause() != EntityDamageEvent.DamageCause.LAVA) || 
+/* 264 */           (evt.getCause() != EntityDamageEvent.DamageCause.FIRE_TICK) || 
+/* 265 */           (evt.getCause() != EntityDamageEvent.DamageCause.PROJECTILE) || 
+/* 266 */           (evt.getCause() != EntityDamageEvent.DamageCause.VOID)) {
+/* 267 */           evt.setCancelled(true);
+/*     */         }
+/*     */       }
+/*     */     }
+/*     */   }
+/*     */   
+/*     */   @EventHandler
+/*     */   public void onPlayerDeath(PlayerDeathEvent evt)
+/*     */   {
+/* 276 */     Player player = evt.getEntity();
+/* 277 */     Entity broom = player.getVehicle();
+/* 278 */     removeBroom(player, broom, this.plugin);
+/*     */   }
+/*     */   
+/*     */   @EventHandler
+/*     */   public void onPlayerDisconnect(PlayerQuitEvent evt)
+/*     */   {
+/* 284 */     Player player = evt.getPlayer();
+/* 285 */     Entity broom = player.getVehicle();
+/* 286 */     removeBroom(player, broom, this.plugin);
+/*     */   }
+/*     */   
+/*     */   public static void removeBroom(Player player, Entity e, BroomSticks plugin)
+/*     */   {
+/* 291 */     if ((e instanceof Horse)) {
+/* 292 */       Horse broom = (Horse)e;
+/* 293 */       Broom.dismount(broom, player, 0.0D, plugin);
+/*     */     }
+/*     */   }
+/*     */ }
+
+
+/* Location:              /home/danman/sauce/java/Minecraft/source-plugins/BroomSticks.jar!/com/DanMan/BroomSticks/Listeners/BroomListener.class
+ * Java compiler version: 8 (52.0)
+ * JD-Core Version:       0.7.1
+ */

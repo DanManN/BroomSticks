@@ -1,0 +1,46 @@
+/*    */ package com.DanMan.BroomSticks.Quidditch;
+/*    */ 
+/*    */ import com.DanMan.BroomSticks.main.BroomSticks;
+/*    */ import com.DanMan.BroomSticks.utils.SNGMetaData;
+/*    */ import org.bukkit.Location;
+/*    */ import org.bukkit.Server;
+/*    */ import org.bukkit.World;
+/*    */ import org.bukkit.entity.Bat;
+/*    */ import org.bukkit.entity.EntityType;
+/*    */ import org.bukkit.entity.Player;
+/*    */ import org.bukkit.scheduler.BukkitScheduler;
+/*    */ import org.bukkit.util.Vector;
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ public class Balls
+/*    */ {
+/*    */   public static void releaseSnitch(Location loc, BroomSticks plugin)
+/*    */   {
+/* 22 */     Bat snitch = (Bat)loc.getWorld().spawnEntity(loc, EntityType.BAT);
+/* 23 */     int id = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
+/*    */     {
+/*    */       public void run()
+/*    */       {
+/* 27 */         Vector bat = Balls.this.getLocation().getDirection();
+/* 28 */         bat.multiply(1.5D);
+/* 29 */         Balls.this.setVelocity(bat);
+/*    */       }
+/* 31 */     }, 10L, 10L);
+/* 32 */     SNGMetaData.setBatMetadata(snitch, id, plugin);
+/*    */   }
+/*    */   
+/*    */   public static void catchSnitch(Player player, Bat snitch, BroomSticks plugin) {
+/* 36 */     int id = SNGMetaData.getBatMetadata(snitch, plugin);
+/* 37 */     plugin.getServer().getScheduler().cancelTask(id);
+/* 38 */     snitch.remove();
+/*    */   }
+/*    */ }
+
+
+/* Location:              /home/danman/sauce/java/Minecraft/source-plugins/BroomSticks.jar!/com/DanMan/BroomSticks/Quidditch/Balls.class
+ * Java compiler version: 8 (52.0)
+ * JD-Core Version:       0.7.1
+ */

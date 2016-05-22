@@ -1,0 +1,48 @@
+/*    */ package com.DanMan.BroomSticks.Quidditch;
+/*    */ 
+/*    */ import com.DanMan.BroomSticks.main.BroomSticks;
+/*    */ import java.util.ArrayList;
+/*    */ import org.bukkit.entity.Player;
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ public class QMatch
+/*    */ {
+/*    */   private BroomSticks plugin;
+/* 17 */   private ArrayList<Player> gryffindor = new ArrayList();
+/* 18 */   private ArrayList<Player> slytherin = new ArrayList();
+/*    */   private QArena arena;
+/*    */   
+/*    */   public QMatch(QArena arena, BroomSticks plug) {
+/* 22 */     this.plugin = plug;
+/*    */   }
+/*    */   
+/*    */ 
+/*    */ 
+/*    */   public void preGame() {}
+/*    */   
+/*    */ 
+/*    */   public void startGame() {}
+/*    */   
+/*    */ 
+/*    */   public void endGame() {}
+/*    */   
+/*    */ 
+/*    */   public void addGryffindor(Player player)
+/*    */   {
+/* 38 */     this.gryffindor.add(player);
+/*    */   }
+/*    */   
+/* 41 */   public void addSlytherin(Player player) { this.slytherin.add(player); }
+/*    */ }
+
+
+/* Location:              /home/danman/sauce/java/Minecraft/source-plugins/BroomSticks.jar!/com/DanMan/BroomSticks/Quidditch/QMatch.class
+ * Java compiler version: 8 (52.0)
+ * JD-Core Version:       0.7.1
+ */

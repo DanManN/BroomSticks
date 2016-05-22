@@ -1,0 +1,27 @@
+name: BroomSticks
+version: 4.0.0
+main: com.DanMan.BroomSticks.main.BroomSticks
+commands:
+#  q: #(this command is not yet implemented)
+#    description: Manipulate quidditch stadium and game.
+#    usage: /q <new|delete|start|stop> "arena-name"
+#    permission-message: You don't have <permission>
+  broom:
+    description: Gives a broom to a player or yourself.
+    usage: /broom [player] "broom-name"
+    permission-message: You don't have <permission>
+permissions:
+    broomsticks.*:
+        description: Gives access to all broomstick commands
+        children:
+            broomsticks.spawn: true
+            broomsticks.ride : true
+    broomsticks.spawn:
+        description: Allows you to spawn in a broom with a command.
+        default: op
+    broomsticks.ride:
+        description: Allows you to ride a broom.
+        default: op
+#    broomSticks.quidditch:
+#        description: Allows you to use all quidditch commands.
+#        default: op
