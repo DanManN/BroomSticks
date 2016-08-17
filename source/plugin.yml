@@ -1,5 +1,5 @@
 name: BroomSticks
-version: 4.0.0
+version: 4.0.1
 main: com.DanMan.BroomSticks.main.BroomSticks
 commands:
 #  q: #(this command is not yet implemented)

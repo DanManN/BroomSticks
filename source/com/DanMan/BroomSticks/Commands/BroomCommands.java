@@ -57,7 +57,6 @@ public class BroomCommands
 		    return false;
 		}
 	    } else if (args.length == 2) {
-		args[0] = args[1];
 		Pattern pat = Pattern.compile("[^A-Za-z0-9_]+");
 		Matcher m = pat.matcher(args[0]);
 		if (!m.find()) {
@@ -66,10 +65,11 @@ public class BroomCommands
 		    sender.sendMessage(ChatColor.RED + "A player's username can only contain letters, numbers and _");
 		    return false;
 		}
+		args[0] = args[1];
 	    } else {
 		sender.sendMessage(ChatColor.RED + "Incorrect number of arguments!");
-		return false; }
-	    
+		return false;
+	    }
 	    giveBroom(player, sender, args[0]);
 	    return true;
 	}
