@@ -36,35 +36,35 @@ Default Config:
       number-of-brooms: 5
   
       broom1:
-        name: Cleansweep One
+        name: $9Cleansweep_One
         speed: 0.5
         durability: 100
         # wood shovel
         item: 269
       
       broom2:
-        name: Comet 140
+        name: $9Comet_140
         speed: 0.8
         durability: 100
         # stone shovel
         item: 273
       
       broom3:
-        name: Nimbus 2000
+        name: $9Nimbus_2000
         speed: 1.0
         durability: 100
         # iron shovel
         item: 256
       
       broom4:
-        name: Nimbus 2001
+        name: $9Nimbus_2001
         speed: 1.1
         durability: 100
         # gold shovel
         item: 284
       
       broom5:
-        name: Firebolt
+        name: $9Firebolt
         speed: 1.5
         durability: 100
         # diamond shovel
