@@ -1,15 +1,9 @@
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-                                                    BroomSticks
+# BroomSticks
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Have you ever wanted to fly like Harry Potter?
-Have you ever want to soar at incredible speeds with on the Firebolt, the fastest broomstick in production?
-Or, have you ever just wanted a convenient mode of transportation that does require rails or water?
-Well this plugin adds Broomsticks to the game. Have as many different broomstick models as you want.
-Give them any name you want. Customize their speeds and even pick what items can be broomsticks.
+Have you ever wanted to fly like Harry Potter? Have you ever want to soar at incredible speeds with on the Firebolt, the fastest broomstick in production? Or, have you ever just wanted a convenient mode of transportation that does require rails or water? Well this plugin adds Broomsticks to the game. Have as many different broomstick models as you want. Give them any name you want. Customize their speeds and even pick what items can be broomsticks.
 
-Riding and Making Brooms:
+### Riding and Making Brooms:
 
 1. First you have to craft an acceptable broom item as specified in config.yml (default is a shovel)
 2. Enchant the item with Infinity 1 using an anvil.
@@ -20,7 +14,7 @@ Riding and Making Brooms:
 7. <s>Stay out of trouble, brooms will now burn up after touching lava or being lit on fire.</s>
 8. Sneak to dismount the broom. Make sure you are on the ground first or you will fall. Dismounting a broom also conserves momentum so flying fast means you'll land a little further than you might expect. 
 
-Config:
+### Config:
 
 Default Config:
 
@@ -77,6 +71,6 @@ Default Config:
 * don't use a ton of special characters for the broom model name because not all of them might work.
 * avoid using strange items such as bows, potions, or food as brooms because they have separate right click functions. 
 
-Known Issues:
+### Known Issues:
 
 * when enchanting the broom item it appears to be duplicated but the second item will disappear when you click on it.
