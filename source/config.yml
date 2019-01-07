@@ -1,6 +1,6 @@
 #quidditch-pitch-radius: 75 this is not a feature yet
 
-Brooms: 
+Brooms:
   #dont use spaces when naming the brooms. Use underscore instead.
   #Ex. name: Name_with_spaces
   #use a $ to declare a color or formatting code
@@ -12,32 +12,32 @@ Brooms:
     speed: 0.5
     durability: 100
     # wood shovel
-    item: 269
-      
+    item: 848
+
   broom2:
     name: $9Comet_140
     speed: 0.8
     durability: 100
     # stone shovel
-    item: 273
-      
+    item: 771
+
   broom3:
     name: $9Nimbus_2000
     speed: 1.0
     durability: 100
     # iron shovel
-    item: 256
-      
+    item: 396
+
   broom4:
     name: $9Nimbus_2001
     speed: 1.1
     durability: 100
     # gold shovel
-    item: 284
-      
+    item: 325
+
   broom5:
     name: $9Firebolt
     speed: 1.5
     durability: 100
     # diamond shovel
-    item: 277
+    item: 249
