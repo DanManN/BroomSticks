@@ -3,16 +3,15 @@ package com.DanMan.BroomSticks.main;
 import com.DanMan.BroomSticks.utils.SNGMetaData;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.ArmorStand;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-
-
-
-
 
 public class Broom
 {
@@ -54,20 +53,25 @@ public class Broom
 
 	public static Entity mount(Player player, int maxH)
 	{
-		ArmorStand broom = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-		//broom.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
-		//broom.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, Integer.MAX_VALUE, 0));
-		broom.setVisible(false);
-		//broom.setGliding(true);
-		//broom.setSaddle(true);
-		//broom.setGliding(true);
+		// ArmorStand broom = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+		Horse broom = (Horse) player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE);
+		broom.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
+		broom.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, Integer.MAX_VALUE, 0));
+		// broom.setVisible(false);
+		// broom.setSaddle(true);
+		// broom.setMaxHealth(maxH);
+		// broom.setHealth(maxH);
+		// broom.setMaximumAir(Integer.MAX_VALUE);
+		// broom.setRemainingAir(Integer.MAX_VALUE);
+		broom.setGliding(true);
 		broom.setInvulnerable(true);
-		//broom.setMaxHealth(maxH);
-		//broom.setHealth(maxH);
-		//broom.setMaximumAir(Integer.MAX_VALUE);
-		//broom.setRemainingAir(Integer.MAX_VALUE);
-		//broom.getInventory().addItem(new ItemStack[] { new ItemStack(Material.SADDLE) });
-		//broom.setOwner(player);
+		broom.setBaby();
+		broom.setAgeLock(true);
+		broom.setSilent(true);
+		broom.setCollidable(false);
+		broom.setJumpStrength(1.0);
+		broom.getInventory().addItem(new ItemStack[] { new ItemStack(Material.SADDLE) });
+		broom.setOwner(player);
 		broom.setPassenger(player);
 		return broom;
 	}
