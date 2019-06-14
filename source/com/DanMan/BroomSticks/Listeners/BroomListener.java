@@ -141,7 +141,7 @@ public class BroomListener implements Listener
 				if (player.hasPermission("broomsticks.ride"))
 				{
 					Entity broom = Broom.mount(player, durability);
-					double speed = /*0.1D */ sMult;
+					double speed = /*0.1D */ sMult*0.5D;
 					taskId = FlyTask.flying(this.plugin, player, broom, speed);
 					SNGMetaData.setIntMetadata(player, taskId, this.plugin);
 					SNGMetaData.setBroomItemMetadata(player, item, this.plugin);
