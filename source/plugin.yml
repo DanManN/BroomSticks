@@ -1,6 +1,6 @@
 name: BroomSticks
-version: 4.0.2
-api-version: 1.13
+version: 4.1.0
+api-version: 1.14
 main: com.DanMan.BroomSticks.main.BroomSticks
 commands:
 #  q: #(this command is not yet implemented)
