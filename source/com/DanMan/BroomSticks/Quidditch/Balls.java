@@ -11,20 +11,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
-public class Balls
-{
-	public static void releaseSnitch(Location loc, BroomSticks plugin)
-	{
+public class Balls {
+	public static void releaseSnitch(Location loc, BroomSticks plugin) {
 		Bat snitch = (Bat)loc.getWorld().spawnEntity(loc, EntityType.BAT);
-		int id = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable()
-				{
-					public void run()
-					{
-						Vector bat = Balls.this.getLocation().getDirection();
-						bat.multiply(1.5D);
-						Balls.this.setVelocity(bat);
-					}
-				}, 10L, 10L);
+		int id = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(
+			plugin, new Runnable() {
+				public void run() {
+					Vector bat = Balls.this.getLocation().getDirection();
+					bat.multiply(1.5D);
+					Balls.this.setVelocity(bat);
+				}
+			}, 10L, 10L);
 		SNGMetaData.setBatMetadata(snitch, id, plugin);
 	}
 

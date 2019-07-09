@@ -13,21 +13,17 @@ import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class BroomCraftListener
-	implements Listener
-{
+public class BroomCraftListener implements Listener {
 	private ConfigLoader info;
 	private ArrayList<Broom> broomStick;
 
-	public BroomCraftListener(BroomSticks plugin)
-	{
+	public BroomCraftListener(BroomSticks plugin) {
 		this.info = plugin.getConfigLoader();
 		this.broomStick = this.info.getBrooms();
 	}
 
 	@EventHandler
-	public void onBroomEnchant(InventoryClickEvent evt)
-	{
+	public void onBroomEnchant(InventoryClickEvent evt) {
 		if ((evt.getInventory() instanceof AnvilInventory)) {
 			ItemStack item = evt.getCurrentItem();
 			if (item != null) {
@@ -36,7 +32,8 @@ public class BroomCraftListener
 					for (Broom bs : this.broomStick) {
 						if (bs.getItem().getType() == broom) {
 							ItemMeta meta = item.getItemMeta();
-							if (meta.hasDisplayName()) break;
+							if (meta.hasDisplayName())
+								break;
 							meta.setDisplayName(bs.getName().replace("_", " "));
 							item.setItemMeta(meta);
 
