@@ -33,13 +33,15 @@ public class BroomListener implements Listener {
 	private ConfigLoader info;
 	private ArrayList<Broom> broomStick;
 
-	public BroomListener(BroomSticks plugin) {
+	public BroomListener(BroomSticks plugin)
+	{
 		this.plugin = plugin;
 		this.info = plugin.getConfigLoader();
 		this.broomStick = this.info.getBrooms();
 	}
 
-	public boolean cbCheck(Block b) {
+	public boolean cbCheck(Block b)
+	{
 		if (b != null) {
 			Material mb = b.getType();
 			Plugin[] arrayOfPlugin;
@@ -48,19 +50,23 @@ public class BroomListener implements Listener {
 				Plugin plug = arrayOfPlugin[i];
 				if (plug.getName().equalsIgnoreCase("craftbook")) {
 					Plugin cb =
-						Bukkit.getServer().getPluginManager().getPlugin("CraftBook");
-					if (cb.getConfig().getBoolean("mechanics.chair.enable")) {
+						Bukkit.getServer().getPluginManager().getPlugin(
+							"CraftBook");
+					if (cb.getConfig().getBoolean(
+						    "mechanics.chair.enable")) {
 						String[] blocks = null;
 						List<String> sblocks =
-							cb.getConfig().getStringList("mechanics.chair.blocks");
+							cb.getConfig().getStringList(
+								"mechanics.chair.blocks");
 						if (sblocks != null)
-							blocks =
-								(String[])sblocks.toArray(new String[sblocks.size()]);
+							blocks = (String[])sblocks.toArray(
+								new String[sblocks.size()]);
 						String[] arrayOfString1;
 						int m = (arrayOfString1 = blocks).length;
 						for (int k = 0; k < m; k++) {
 							String sb = arrayOfString1[k];
-							if (mb.toString().equalsIgnoreCase(sb)) {
+							if (mb.toString().equalsIgnoreCase(
+								    sb)) {
 								return true;
 							}
 						}
@@ -72,50 +78,50 @@ public class BroomListener implements Listener {
 		return false;
 	}
 
-	@EventHandler
-	public void onUseBroom(PlayerInteractEvent evt) {
+	@EventHandler public void onUseBroom(PlayerInteractEvent evt)
+	{
 		if (cbCheck(evt.getClickedBlock())) {
 			return;
 		}
 
 		ItemStack item = evt.getItem();
 		if ((item != null) &&
-			(item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) &&
-			((evt.getAction() == Action.RIGHT_CLICK_AIR) ||
-			 (evt.getAction() == Action.RIGHT_CLICK_BLOCK))) {
+		    (item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) &&
+		    ((evt.getAction() == Action.RIGHT_CLICK_AIR) ||
+		     (evt.getAction() == Action.RIGHT_CLICK_BLOCK))) {
 			if (evt.getClickedBlock() != null) {
 				Block b = evt.getClickedBlock();
 				if (((b.getState() instanceof InventoryHolder)) ||
-					(b.getType() == Material.DARK_OAK_DOOR) ||
-					(b.getType() == Material.OAK_DOOR) ||
-					(b.getType() == Material.BIRCH_DOOR) ||
-					(b.getType() == Material.ACACIA_DOOR) ||
-					(b.getType() == Material.JUNGLE_DOOR) ||
-					(b.getType() == Material.SPRUCE_DOOR) ||
-					(b.getType() == Material.DARK_OAK_TRAPDOOR) ||
-					(b.getType() == Material.OAK_TRAPDOOR) ||
-					(b.getType() == Material.BIRCH_TRAPDOOR) ||
-					(b.getType() == Material.ACACIA_TRAPDOOR) ||
-					(b.getType() == Material.JUNGLE_TRAPDOOR) ||
-					(b.getType() == Material.SPRUCE_TRAPDOOR) ||
-					(b.getType() == Material.OAK_FENCE_GATE) ||
-					(b.getType() == Material.BIRCH_FENCE_GATE) ||
-					(b.getType() == Material.ACACIA_FENCE_GATE) ||
-					(b.getType() == Material.JUNGLE_FENCE_GATE) ||
-					(b.getType() == Material.SPRUCE_FENCE_GATE) ||
-					(b.getType() == Material.CRAFTING_TABLE) ||
-					(b.getType() == Material.ANVIL) ||
-					(b.getType() == Material.LEVER) ||
-					(b.getType() == Material.BIRCH_BUTTON) ||
-					(b.getType() == Material.OAK_BUTTON) ||
-					(b.getType() == Material.STONE_BUTTON) ||
-					(b.getType() == Material.ACACIA_BUTTON) ||
-					(b.getType() == Material.JUNGLE_BUTTON) ||
-					(b.getType() == Material.SPRUCE_BUTTON) ||
-					(b.getType() == Material.DARK_OAK_BUTTON) ||
-					(b.getType() == Material.REPEATER) ||
-					(b.getType() == Material.COMPARATOR) ||
-					(b.getType() == Material.ENCHANTING_TABLE)) {
+				    (b.getType() == Material.DARK_OAK_DOOR) ||
+				    (b.getType() == Material.OAK_DOOR) ||
+				    (b.getType() == Material.BIRCH_DOOR) ||
+				    (b.getType() == Material.ACACIA_DOOR) ||
+				    (b.getType() == Material.JUNGLE_DOOR) ||
+				    (b.getType() == Material.SPRUCE_DOOR) ||
+				    (b.getType() == Material.DARK_OAK_TRAPDOOR) ||
+				    (b.getType() == Material.OAK_TRAPDOOR) ||
+				    (b.getType() == Material.BIRCH_TRAPDOOR) ||
+				    (b.getType() == Material.ACACIA_TRAPDOOR) ||
+				    (b.getType() == Material.JUNGLE_TRAPDOOR) ||
+				    (b.getType() == Material.SPRUCE_TRAPDOOR) ||
+				    (b.getType() == Material.OAK_FENCE_GATE) ||
+				    (b.getType() == Material.BIRCH_FENCE_GATE) ||
+				    (b.getType() == Material.ACACIA_FENCE_GATE) ||
+				    (b.getType() == Material.JUNGLE_FENCE_GATE) ||
+				    (b.getType() == Material.SPRUCE_FENCE_GATE) ||
+				    (b.getType() == Material.CRAFTING_TABLE) ||
+				    (b.getType() == Material.ANVIL) ||
+				    (b.getType() == Material.LEVER) ||
+				    (b.getType() == Material.BIRCH_BUTTON) ||
+				    (b.getType() == Material.OAK_BUTTON) ||
+				    (b.getType() == Material.STONE_BUTTON) ||
+				    (b.getType() == Material.ACACIA_BUTTON) ||
+				    (b.getType() == Material.JUNGLE_BUTTON) ||
+				    (b.getType() == Material.SPRUCE_BUTTON) ||
+				    (b.getType() == Material.DARK_OAK_BUTTON) ||
+				    (b.getType() == Material.REPEATER) ||
+				    (b.getType() == Material.COMPARATOR) ||
+				    (b.getType() == Material.ENCHANTING_TABLE)) {
 					return;
 				}
 			}
@@ -141,9 +147,11 @@ public class BroomListener implements Listener {
 				if (player.hasPermission("broomsticks.ride")) {
 					Entity broom = Broom.mount(player, durability);
 					double speed = /*0.1D */ sMult * 0.5D;
-					taskId = FlyTask.flying(this.plugin, player, broom, speed);
+					taskId = FlyTask.flying(this.plugin, player, broom,
+								speed);
 					SNGMetaData.setIntMetadata(player, taskId, this.plugin);
-					SNGMetaData.setBroomItemMetadata(player, item, this.plugin);
+					SNGMetaData.setBroomItemMetadata(player, item,
+									 this.plugin);
 				} else {
 					player.sendMessage(
 						ChatColor.BLUE +
@@ -154,8 +162,8 @@ public class BroomListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onChangeSpeed(HorseJumpEvent evt) {
+	@EventHandler public void onChangeSpeed(HorseJumpEvent evt)
+	{
 		Entity broom = evt.getEntity();
 		Player player = (Player)broom.getPassenger();
 		int taskId = SNGMetaData.getIntMetadata(player, this.plugin);
@@ -188,15 +196,15 @@ public class BroomListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onSaddleClick(InventoryClickEvent evt) {
+	@EventHandler public void onSaddleClick(InventoryClickEvent evt)
+	{
 		HumanEntity he = evt.getWhoClicked();
 		Inventory inv = evt.getInventory();
 		if (((inv instanceof HorseInventory)) && ((he instanceof Player))) {
 			Player p = (Player)he;
 			if ((SNGMetaData.getIntMetadata(p, this.plugin) != -1) &&
-				(evt.getSlot() == 0) &&
-				(evt.getCurrentItem().getType() == Material.SADDLE)) {
+			    (evt.getSlot() == 0) &&
+			    (evt.getCurrentItem().getType() == Material.SADDLE)) {
 				evt.setCancelled(true);
 			}
 		}
@@ -222,21 +230,22 @@ public class BroomListener implements Listener {
 	  }
 	  }*/
 
-	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent evt) {
+	@EventHandler public void onPlayerDeath(PlayerDeathEvent evt)
+	{
 		Player player = evt.getEntity();
 		Entity broom = player.getVehicle();
 		removeBroom(player, broom, this.plugin);
 	}
 
-	@EventHandler
-	public void onPlayerDisconnect(PlayerQuitEvent evt) {
+	@EventHandler public void onPlayerDisconnect(PlayerQuitEvent evt)
+	{
 		Player player = evt.getPlayer();
 		Entity broom = player.getVehicle();
 		removeBroom(player, broom, this.plugin);
 	}
 
-	public static void removeBroom(Player player, Entity e, BroomSticks plugin) {
+	public static void removeBroom(Player player, Entity e, BroomSticks plugin)
+	{
 		// if ((e instanceof Horse)) {
 		// Entity broom = e;
 		Broom.dismount(e, player, 0.0D, plugin);

@@ -10,15 +10,30 @@ public class QMatch {
 	private ArrayList<Player> slytherin = new ArrayList();
 	private QArena arena;
 
-	public QMatch(QArena arena, BroomSticks plug) { this.plugin = plug; }
+	public QMatch(QArena arena, BroomSticks plug)
+	{
+		this.plugin = plug;
+	}
 
-	public void preGame() {}
+	public void preGame()
+	{
+	}
 
-	public void startGame() {}
+	public void startGame()
+	{
+	}
 
-	public void endGame() {}
+	public void endGame()
+	{
+	}
 
-	public void addGryffindor(Player player) { this.gryffindor.add(player); }
+	public void addGryffindor(Player player)
+	{
+		this.gryffindor.add(player);
+	}
 
-	public void addSlytherin(Player player) { this.slytherin.add(player); }
+	public void addSlytherin(Player player)
+	{
+		this.slytherin.add(player);
+	}
 }

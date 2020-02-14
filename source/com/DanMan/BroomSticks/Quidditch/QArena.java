@@ -21,13 +21,15 @@ public class QArena {
 	private Location center;
 	private String name;
 
-	public QArena(String name, BroomSticks plugin) {
+	public QArena(String name, BroomSticks plugin)
+	{
 		this.plugin = plugin;
 		this.name = name;
 		this.center = loadCenter();
 	}
 
-	public void setAndSave(Location center) {
+	public void setAndSave(Location center)
+	{
 		this.center = center;
 		try {
 			sFile.createNewFile();
@@ -36,10 +38,10 @@ public class QArena {
 				"Error: Could not create file due to illegal characters." + e);
 		}
 		try {
-			PrintWriter out =
-				new PrintWriter(new BufferedWriter(new FileWriter(sFile, true)));
+			PrintWriter out = new PrintWriter(
+				new BufferedWriter(new FileWriter(sFile, true)));
 			out.println(this.name + ": " + center.getWorld().getName() + "," +
-						center.getBlockX() + "," + center.getBlockZ());
+				    center.getBlockX() + "," + center.getBlockZ());
 			out.flush();
 			out.close();
 		} catch (IOException e) {
@@ -47,7 +49,8 @@ public class QArena {
 		}
 	}
 
-	public boolean arenaExists() {
+	public boolean arenaExists()
+	{
 		String data = "";
 		if (sFile.exists()) {
 			try {
@@ -67,7 +70,8 @@ public class QArena {
 		return false;
 	}
 
-	private Location loadCenter() {
+	private Location loadCenter()
+	{
 		String data = "";
 		if (sFile.exists()) {
 			try {
@@ -94,9 +98,13 @@ public class QArena {
 		return null;
 	}
 
-	public Location getCenter() { return this.center; }
+	public Location getCenter()
+	{
+		return this.center;
+	}
 
-	public void deleteArena() {
+	public void deleteArena()
+	{
 		if (sFile.exists()) {
 			StringBuilder nContent = new StringBuilder();
 			try {
@@ -123,13 +131,23 @@ public class QArena {
 		}
 	}
 
-	public String getName() { return this.name; }
+	public String getName()
+	{
+		return this.name;
+	}
 
-	public void setName(String name) { this.name = name; }
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 
-	public int getRadius() { return this.plugin.getConfigLoader().getArenaRadius(); }
+	public int getRadius()
+	{
+		return this.plugin.getConfigLoader().getArenaRadius();
+	}
 
-	public boolean inArena(Location loc) {
+	public boolean inArena(Location loc)
+	{
 		if (this.center.getWorld() == loc.getWorld()) {
 			double x1 = this.center.getX();
 			double z1 = this.center.getZ();
@@ -145,7 +163,8 @@ public class QArena {
 		return false;
 	}
 
-	public static void arenaBroadcast(String message, QArena qa) {
+	public static void arenaBroadcast(String message, QArena qa)
+	{
 		for (Player player :) {
 			if (qa.inArena(player.getLocation())) {
 				player.sendMessage(message);

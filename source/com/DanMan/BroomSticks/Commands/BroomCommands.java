@@ -22,29 +22,33 @@ public class BroomCommands implements CommandExecutor {
 	private final ArrayList<Broom> broomStick;
 	boolean bool;
 
-	public BroomCommands(BroomSticks plugin) {
+	public BroomCommands(BroomSticks plugin)
+	{
 		this.plugin = plugin;
 		this.info = plugin.getConfigLoader();
 		this.broomStick = this.info.getBrooms();
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel,
-							 String[] args) {
+				 String[] args)
+	{
 		if (cmd.getName().equalsIgnoreCase("broom")) {
 			this.bool = giveBroom(sender, args);
 		}
 		return this.bool;
 	}
 
-	private boolean giveBroom(CommandSender sender, String[] args) {
+	private boolean giveBroom(CommandSender sender, String[] args)
+	{
 		if (sender.hasPermission("broomsticks.spawn")) {
 			Player player = null;
 			if (args.length == 1) {
 				if ((sender instanceof Player)) {
 					player = (Player)sender;
 				} else {
-					sender.sendMessage(ChatColor.RED +
-									   "Only players can fly broom sticks!");
+					sender.sendMessage(
+						ChatColor.RED +
+						"Only players can fly broom sticks!");
 					return false;
 				}
 			} else if (args.length == 2) {
@@ -60,22 +64,25 @@ public class BroomCommands implements CommandExecutor {
 				}
 				args[0] = args[1];
 			} else {
-				sender.sendMessage(ChatColor.RED + "Incorrect number of arguments!");
+				sender.sendMessage(ChatColor.RED +
+						   "Incorrect number of arguments!");
 				return false;
 			}
 			giveBroom(player, sender, args[0]);
 			return true;
 		}
 		sender.sendMessage(ChatColor.RED +
-						   "You don't have the broomSticks.spawn permission");
+				   "You don't have the broomSticks.spawn permission");
 		return true;
 	}
 
-	public void giveBroom(Player player, CommandSender sender, String broomName) {
+	public void giveBroom(Player player, CommandSender sender, String broomName)
+	{
 		ItemStack broom = null;
 		if (player != null) {
 			for (Broom bs : this.broomStick) {
-				if (ChatColor.stripColor(bs.getName()).equalsIgnoreCase(broomName)) {
+				if (ChatColor.stripColor(bs.getName())
+					    .equalsIgnoreCase(broomName)) {
 					broom = bs.getItem();
 					ItemMeta meta = broom.getItemMeta();
 					meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
@@ -85,10 +92,11 @@ public class BroomCommands implements CommandExecutor {
 				}
 			}
 			if (broom != null) {
-				player.getInventory().addItem(new ItemStack[] {broom});
+				player.getInventory().addItem(new ItemStack[] { broom });
 			} else {
-				sender.sendMessage(ChatColor.RED +
-								   "Sorry, that is not a name of a valid broom stick.");
+				sender.sendMessage(
+					ChatColor.RED +
+					"Sorry, that is not a name of a valid broom stick.");
 			}
 		} else {
 			sender.sendMessage(ChatColor.RED + "Sorry, that player is not online.");

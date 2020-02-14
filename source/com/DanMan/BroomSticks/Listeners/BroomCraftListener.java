@@ -17,13 +17,14 @@ public class BroomCraftListener implements Listener {
 	private ConfigLoader info;
 	private ArrayList<Broom> broomStick;
 
-	public BroomCraftListener(BroomSticks plugin) {
+	public BroomCraftListener(BroomSticks plugin)
+	{
 		this.info = plugin.getConfigLoader();
 		this.broomStick = this.info.getBrooms();
 	}
 
-	@EventHandler
-	public void onBroomEnchant(InventoryClickEvent evt) {
+	@EventHandler public void onBroomEnchant(InventoryClickEvent evt)
+	{
 		if ((evt.getInventory() instanceof AnvilInventory)) {
 			ItemStack item = evt.getCurrentItem();
 			if (item != null) {
@@ -34,7 +35,8 @@ public class BroomCraftListener implements Listener {
 							ItemMeta meta = item.getItemMeta();
 							if (meta.hasDisplayName())
 								break;
-							meta.setDisplayName(bs.getName().replace("_", " "));
+							meta.setDisplayName(
+								bs.getName().replace("_", " "));
 							item.setItemMeta(meta);
 
 							break;

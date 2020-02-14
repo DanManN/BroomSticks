@@ -19,26 +19,40 @@ public class Broom {
 	private int durability;
 	private static Vector dir;
 
-	public Broom(String name, double speed, ItemStack item, int durability) {
+	public Broom(String name, double speed, ItemStack item, int durability)
+	{
 		this.name = name;
 		this.speed = speed;
 		this.item = item;
 		this.durability = durability;
 	}
 
-	public int getDurability() { return this.durability; }
+	public int getDurability()
+	{
+		return this.durability;
+	}
 
-	public ItemStack getItem() { return this.item; }
+	public ItemStack getItem()
+	{
+		return this.item;
+	}
 
-	public String getName() { return this.name; }
+	public String getName()
+	{
+		return this.name;
+	}
 
-	public double getSpeed() { return this.speed; }
+	public double getSpeed()
+	{
+		return this.speed;
+	}
 
-	public static Entity mount(Player player, int maxH) {
+	public static Entity mount(Player player, int maxH)
+	{
 		// ArmorStand broom = (ArmorStand)
 		// player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
 		Horse broom = (Horse)player.getWorld().spawnEntity(player.getLocation(),
-														   EntityType.HORSE);
+								   EntityType.HORSE);
 		broom.addPotionEffect(
 			new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
 		broom.addPotionEffect(
@@ -56,14 +70,16 @@ public class Broom {
 		broom.setSilent(true);
 		broom.setCollidable(false);
 		broom.setJumpStrength(1.0);
-		broom.getInventory().addItem(new ItemStack[] {new ItemStack(Material.SADDLE)});
+		broom.getInventory().addItem(
+			new ItemStack[] { new ItemStack(Material.SADDLE) });
 		broom.setOwner(player);
 		broom.setPassenger(player);
 		return broom;
 	}
 
 	public static void dismount(Entity broom, Player player, double speed,
-								BroomSticks plugin) {
+				    BroomSticks plugin)
+	{
 		int taskId = SNGMetaData.getIntMetadata(player, plugin);
 
 		if (taskId != -1) {
@@ -79,7 +95,8 @@ public class Broom {
 		}
 	}
 
-	public static void dismountAll(BroomSticks plugin) {
+	public static void dismountAll(BroomSticks plugin)
+	{
 		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 			int taskId = SNGMetaData.getIntMetadata(player, plugin);
 			if (taskId != -1) {
@@ -90,7 +107,8 @@ public class Broom {
 		}
 	}
 
-	public static void fly(Player player, Entity broom, double speed) {
+	public static void fly(Player player, Entity broom, double speed)
+	{
 		dir = player.getLocation().getDirection();
 		dir.multiply(speed);
 		dir.setY(dir.getY() + 0.1D * speed);

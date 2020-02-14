@@ -16,10 +16,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class QuidditchListener implements Listener {
 	private BroomSticks plugin;
 
-	public QuidditchListener(BroomSticks plugin) { this.plugin = plugin; }
+	public QuidditchListener(BroomSticks plugin)
+	{
+		this.plugin = plugin;
+	}
 
-	@EventHandler
-	public void onReleaseSnitch(PlayerInteractEvent evt) {
+	@EventHandler public void onReleaseSnitch(PlayerInteractEvent evt)
+	{
 		if (evt.getItem() == null) {
 			return;
 		}
@@ -32,14 +35,14 @@ public class QuidditchListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onCatchSnitch(EntityDamageByEntityEvent evt) {
+	@EventHandler public void onCatchSnitch(EntityDamageByEntityEvent evt)
+	{
 		if (((evt.getDamager() instanceof Player)) &&
-			((evt.getEntity() instanceof Bat))) {
+		    ((evt.getEntity() instanceof Bat))) {
 			Player player = (Player)evt.getDamager();
 			Bat b = (Bat)evt.getEntity();
 			player.sendMessage(ChatColor.GOLD +
-							   "Congratulations you have caught the Snitch!");
+					   "Congratulations you have caught the Snitch!");
 			Balls.catchSnitch(player, b, this.plugin);
 		}
 	}

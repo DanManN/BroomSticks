@@ -11,13 +11,23 @@ public class ConfigLoader {
 	private ArrayList<Broom> brooms;
 	private int arenaRadius;
 
-	public ConfigLoader(BroomSticks plugin) { this.plugin = plugin; }
+	public ConfigLoader(BroomSticks plugin)
+	{
+		this.plugin = plugin;
+	}
 
-	public ArrayList<Broom> getBrooms() { return this.brooms; }
+	public ArrayList<Broom> getBrooms()
+	{
+		return this.brooms;
+	}
 
-	public int getArenaRadius() { return this.arenaRadius; }
+	public int getArenaRadius()
+	{
+		return this.arenaRadius;
+	}
 
-	public void loadConfig() {
+	public void loadConfig()
+	{
 		this.plugin.saveDefaultConfig();
 
 		this.brooms = new ArrayList<Broom>();
@@ -25,14 +35,16 @@ public class ConfigLoader {
 		String key = "Brooms.broom" + i;
 		while (this.plugin.getConfig().contains(key)) {
 			if (!this.plugin.getConfig().contains(key)) {
-				this.plugin.getLogger().info("BroomSticks: Loaded all config values.");
+				this.plugin.getLogger().info(
+					"BroomSticks: Loaded all config values.");
 				break;
 			}
 
 			String name = ChatColor.translateAlternateColorCodes(
 				'$', this.plugin.getConfig().getString(key + ".name"));
 			if (name == null) {
-				name = this.plugin.getConfig().getDefaults().getString(key + ".name");
+				name = this.plugin.getConfig().getDefaults().getString(key +
+										       ".name");
 				this.plugin.getLogger().log(
 					Level.WARNING,
 					"Invalid Config Value: {0}name! Replacing with default value.",
@@ -41,7 +53,8 @@ public class ConfigLoader {
 
 			double speed = this.plugin.getConfig().getDouble(key + ".speed");
 			if (speed == 0.0D) {
-				speed = this.plugin.getConfig().getDefaults().getDouble(key + ".speed");
+				speed = this.plugin.getConfig().getDefaults().getDouble(
+					key + ".speed");
 				this.plugin.getLogger().log(
 					Level.WARNING,
 					"Invalid Config Value: {0}speed! Replacing with default value.",
@@ -50,8 +63,8 @@ public class ConfigLoader {
 
 			String material = this.plugin.getConfig().getString(key + ".item");
 			if (material == null) {
-				material =
-					this.plugin.getConfig().getDefaults().getString(key + ".item");
+				material = this.plugin.getConfig().getDefaults().getString(
+					key + ".item");
 				this.plugin.getLogger().log(
 					Level.WARNING,
 					"Invalid Config Value: {0}item! Replacing with default value.",
@@ -61,8 +74,8 @@ public class ConfigLoader {
 
 			int durability = this.plugin.getConfig().getInt(key + ".durability");
 			if (durability == 0) {
-				durability =
-					this.plugin.getConfig().getDefaults().getInt(key + ".durability");
+				durability = this.plugin.getConfig().getDefaults().getInt(
+					key + ".durability");
 				this.plugin.getLogger().log(
 					Level.WARNING,
 					"Invalid Config Value: {0}durability! Replacing with default value.",
